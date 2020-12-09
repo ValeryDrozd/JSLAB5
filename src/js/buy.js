@@ -6,7 +6,7 @@ function getCart(){
     return basket;
 }
 
-function buy(id){
+export function buy(id){
     let basket = getCart();
     let radios = document.getElementsByName(id);
     for(let i=0;i<radios.length;i++){
@@ -24,7 +24,7 @@ function buy(id){
     localStorage.setItem("cart",JSON.stringify(basket));
 }
 
-function changeElem(id,price){
+export function changeElem(id,price){
     let radios = document.getElementsByName(id);
     let basket = getCart();
     for(let i=0;i<radios.length;i++){

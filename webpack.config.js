@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: 'index.js'
     },
     module: {
         rules: [
@@ -28,8 +28,13 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: "./src/images", to: "./src/images" },
+                { from: "./src/images", to: "./images" },
             ],
         }),
-    ]
+    ],
+    resolve: {
+        fallback: {
+          util: false
+        }
+    }
 };
