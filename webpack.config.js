@@ -1,8 +1,35 @@
-const path = require('path')
+const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
 module.exports = {
-    entry: {main:'./src/index.js',slider:'./src/js/slider.js'},
+    entry: './src/index.js',
+    devtool: 'inline-source-map',
+    devServer: {
+        liveReload: true,
+        hot: true,
+    },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname,'dist')
-    }
-}
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+        ],
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            filename: './src/index.html',
+            template: './src/index.html',
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: "./src/images", to: "./src/images" },
+            ],
+        }),
+    ]
+};
