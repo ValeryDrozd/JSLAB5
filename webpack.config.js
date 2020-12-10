@@ -31,10 +31,5 @@ module.exports = {
                 { from: "./src/images", to: "./images" },
             ],
         }),
-    ],
-    resolve: {
-        fallback: {
-          util: false
-        }
-    }
+    ]
 };
