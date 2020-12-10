@@ -1,3 +1,7 @@
+
+import { changeElem } from './buy'
+
+
 //Function to get cart from localstorage
 export function getCart(){
     let basket = localStorage.getItem('cart');
@@ -39,7 +43,7 @@ function genDescBlock(product){
     form+= '<p style="margin-bottom:0;"> '+product['productDescription']+((product['spicy']==true)?'<font style="color:red">Spicy.</font>':'')+' </p>';
     form+= '<span>';
     for(let i=0;i<product['radius'].length;i++){
-        form+= '<span style="margin-right:20px;"><input type="radio" style="margin-right:5px;" onchange="changeElem('+product['id']+','+product['price'][i]+')" name="'+product['id']+'" '+((i==0)?'checked':"")+' value = "'+i+'" >'+product['radius'][i]+'</span>';
+        form+= '<span style="margin-right:20px;"><input type="radio" class="rb" style="margin-right:5px;" id="'+product['id']+'_'+product['price'][i]+'"  name="'+product['id']+'" '+((i==0)?'checked':"")+' value = "'+i+'" >'+product['radius'][i]+'</span>';
     }
     form+= '</span><br>';
   

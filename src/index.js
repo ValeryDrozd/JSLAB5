@@ -42,6 +42,17 @@ function setJumpers(){
             });
         }
     }
+    if(document.querySelectorAll('rb')){
+        let rbs = document.querySelectorAll('.rb');
+        for(let i=0;i<rbs.length;i++){
+            document.getElementById(rbs[i].id).addEventListener('click',function(){
+                let id = rbs[i].id;
+                let params = id.split('_');
+                console.log(params);
+                changeElem(params[0]*1,params[1]*1);
+            });
+        }
+    }
 }
 
 async function init(){
