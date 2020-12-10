@@ -1,5 +1,9 @@
 import { router } from './js/navigate'
 import './css/styles.css'
+import './js/slider'
+import { slider, slides } from './js/slider';
+global.slides = new slider();
+let a = 1;
 
 async function jump(){
     const path = this.getAttribute('data-path');
@@ -19,9 +23,20 @@ function setJumpers(){
             el.addEventListener('click', jump);
         })
     }
+    if(document.getElementById("prevbutton")){
+        document.getElementById("prevbutton").addEventListener('click',function(){
+            window.slides.slideleft();
+        });
+    }
+    if(document.getElementById("nextbutton")){
+        document.getElementById("nextbutton").addEventListener('click',function(){
+            window.slides.slideright();
+        });
+    }
 }
 
 async function init(){
+    a = new slider();
     document.querySelectorAll('.nav').forEach(el => {
         el.addEventListener('click', jump);
     })

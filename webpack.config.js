@@ -25,6 +25,12 @@ module.exports = {
         new HtmlWebPackPlugin({
             filename: './src/index.html',
             template: './src/index.html',
+            use: {
+                loader: 'html-loader',
+                options: {
+                  attrs: [':data-src']
+                }
+              }
         }),
         new CopyPlugin({
             patterns: [

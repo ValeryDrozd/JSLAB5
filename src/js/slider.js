@@ -1,30 +1,30 @@
-let carousel;
-let carouselimages;
-let number = 0;
-let size = 0;
-init();
-function init(){
-    carousel = document.querySelector('#carousel');
-    carouselimages = document.querySelectorAll('#carousel img');
-    if(carouselimages.length>0) size = carouselimages[0].clientWidth;
-    if(size!=0)document.getElementById("promos").style.width = size;
-    number = 0; 
-}
-
-function slideleft(){
-  //   init();
-    if(number!=0){
-        carousel.style.transition = "transform 0.4s ease-in-out";
-        number--;
-        carousel.style.transform = 'translateX('+(-size*number) + 'px)';
+export class slider{
+    constructor(){
+        this.carousel = null;
+        this.carouselimages = null;
+        this.number = 0;
+        this.size = 0;
     }
-}
-
-function slideright(){
-    init();
-    if(number!=carouselimages.length-1){
-        carousel.style.transition = "transform 0.4s ease-in-out";
-        number++;
-        carousel.style.transform = 'translateX('+(-size*number) + 'px)';
+    init(){
+        this.carousel = document.querySelector('#carousel');
+        this.carouselimages = document.querySelectorAll('#carousel img');
+        if(this.carouselimages.length>0) this.size = this.carouselimages[0].clientWidth;
+        if(this.size!=0)document.getElementById("promos").style.width = this.size;
+        this.number = 0; 
+    }
+    slideleft(){
+        if(this.number!=0){
+            this.carousel.style.transition = "transform 0.4s ease-in-out";
+            this.number--;
+            this.carousel.style.transform = 'translateX('+(-this.size*this.number) + 'px)';
+        }
+    }
+    slideright(){
+        this.init();
+        if(this.number!=this.carouselimages.length-1){
+            this.carousel.style.transition = "transform 0.4s ease-in-out";
+            this.number++;
+            this.carousel.style.transform = 'translateX('+(-this.size*this.number) + 'px)';
+        }
     }
 }

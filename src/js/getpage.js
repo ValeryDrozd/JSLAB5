@@ -6,8 +6,8 @@ export let routes = {
     '    <img src="./images/loading.svg" alt="loadimage" style="width: 100%;height: 100%;">'+
     '</div>'+
     '<div id="buttons">'+
-        '<button id="prevbutton" onclick="slideleft()">Previous</button>'+
-        '<button id="nextbutton" onclick="slideright()">Next</button>'+
+        '<button id="prevbutton">Previous</button>'+
+        '<button id="nextbutton">Next</button>'+
     '</div>'+
     '</div>'+
     '<hr>'+
