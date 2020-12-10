@@ -51,17 +51,17 @@ export async function router(){
                 let group = link.substr(link.indexOf('#')+1,link.indexOf('/')-1);
                 if(group=='products'){
                     document.getElementById('content').innerHTML = routes['item'];
-                    generateProduct(link);
+                    await generateProduct(link);
                     break;
                 }
                 if(group=='promos'){
                     document.getElementById('content').innerHTML = routes['promo'];
-                    generatePromoPage(link);
+                    await generatePromoPage(link);
                     break;
                 }
                 if(group=='order'){
                     document.getElementById('content').innerHTML = routes['clientorder'];
-                    generateOrder(link.substr(link.indexOf('/')+1));
+                    await generateOrder(link.substr(link.indexOf('/')+1));
                     break;
                 }
             }

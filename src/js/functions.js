@@ -44,7 +44,7 @@ function genDescBlock(product){
     form+= '</span><br>';
   
     form+=' <span id="unitprice'+product['id']+'" > One item price: '+product['price'][0]+' UAH</span><br>'
-    form+=' <button id="buy'+product['id']+'" value = "'+product['price'][0]+'" class="buy" '+((basket['amount'][String([product['id'],0])]>=1)?"style = 'background-color:#2ECC71;'":"")+' onclick="buy('+product["id"]+')">'+((basket['amount'][String([product['id'],0])]>=0)?"In the cart":"Buy")+'</button>';
+    form+=' <button id="buy'+product['id']+'" value = "'+product['price'][0]+'" class="buy" '+((basket['amount'][String([product['id'],0])]>=1)?"style = 'background-color:#2ECC71;'":"")+' >'+((basket['amount'][String([product['id'],0])]>=0)?"In the cart":"Buy")+'</button>';
     return form;
 }
 

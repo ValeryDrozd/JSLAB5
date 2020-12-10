@@ -1,14 +1,15 @@
 import { router } from './js/navigate'
 import './css/styles.css'
 import './js/slider'
-import { slider, slides } from './js/slider';
+import { slider } from './js/slider';
+import { buy, changeElem } from './js/buy'
 global.slides = new slider();
 let a = 1;
 
 async function jump(){
     const path = this.getAttribute('data-path');
     window.location.hash = path;
-    await router();
+    let t = await router();
     setJumpers();
 }
 
@@ -32,6 +33,14 @@ function setJumpers(){
         document.getElementById("nextbutton").addEventListener('click',function(){
             window.slides.slideright();
         });
+    }
+    if(document.querySelectorAll('.buy')){
+        let btns = document.querySelectorAll('.buy');
+        for(let i=0;i<btns.length;i++){
+            document.getElementById(btns[i].id).addEventListener('click',function(){
+                buy(btns[i].id.substr(3)*1);
+            });
+        }
     }
 }
 
