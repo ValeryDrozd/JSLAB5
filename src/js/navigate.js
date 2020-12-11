@@ -1,6 +1,6 @@
 import { routes } from '../js/getpage'
-import { generatePromo,generateItems,getCart,generateProduct,valid,generateOrderList,generateOrder,generatePromoPage  } from '../js/functions.js';
-
+import { generatePromo,generateItems,getCart,generateProduct,valid,generateOrderList,generatePromoPage  } from '../js/functions.js';
+import {genOrderList} from './makeorder'
 export async function router(){
     let link = window.location.hash;
     let buttonList = document.querySelectorAll('header button');
@@ -8,6 +8,7 @@ export async function router(){
         buttonList[i].style.backgroundColor = 'darkorange';
     }
     document.getElementById('amount').innerText = await getCart()['number'];
+    let t;
     switch(link){
         case '#sushi':
             document.getElementById('sushiBtn').style.backgroundColor = '#F9E79F';
@@ -36,6 +37,7 @@ export async function router(){
                 break;
             }else
             link = '#all';
+        // eslint-disable-next-line no-fallthrough
         case '#all':
             document.getElementById('allBtn').style.backgroundColor = '#F9E79F';
             document.getElementById('content').innerHTML = routes['all'];
@@ -44,7 +46,7 @@ export async function router(){
             document.getElementById('DrinksField').innerHTML = await generateItems('drinks');
             break;
         case link:
-            let t = await valid(link);
+            t = await valid(link);
             if(t==true){
                 let group = link.substr(link.indexOf('#')+1,link.indexOf('/')-1);
                 if(group=='products'){
@@ -59,16 +61,16 @@ export async function router(){
                 }
                 if(group=='order'){
                     document.getElementById('content').innerHTML = routes['clientorder'];
-                    await generateOrder(link.substr(link.indexOf('/')+1));
+                    await genOrderList();
                     break;
                 }
             }
             window.location.hash = "";
+        // eslint-disable-next-line no-fallthrough
         default:
             document.getElementById('mainBtn').style.backgroundColor = '#F9E79F';
             document.getElementById('content').innerHTML = routes['main'];
-            let ls = await generateItems('recommended');
-            document.getElementById('goodsField').innerHTML = ls;
+            document.getElementById('goodsField').innerHTML = await generateItems('recommended');
             await generatePromo();
             document.getElementById("prevbutton").style.display = 'inline-block';
             document.getElementById("nextbutton").style.display = 'inline-block';

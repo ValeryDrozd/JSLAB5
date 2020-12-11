@@ -1,42 +1,42 @@
-import { router } from './js/navigate'
-import './css/styles.css'
-import './js/slider'
+import { router } from './js/navigate';
+import './css/styles.css';
+import './js/slider';
 import { slider } from './js/slider';
-import { buy, changeElem } from './js/buy'
-import {decrease, increase, remove} from "./js/calcprice";
-import {makeorder, hideshow} from "./js/makeorder";
+import { buy, changeElem } from './js/buy';
+import {decrease, increase, remove} from './js/calcprice';
+import {makeorder, hideshow} from './js/makeorder';
 
+// eslint-disable-next-line no-undef
 global.slides = new slider();
-let a = 1;
 
 async function jump(){
     const path = this.getAttribute('data-path');
     if(this.id==='clearorderlist')localStorage.clear();
     window.location.hash = path;
-    let t = await router();
+    await router();
     setJumpers();
 }
 
 
 
 function setJumpers(){
-    if(document.querySelectorAll('.good img').length!=0){
+    if(document.querySelectorAll('.good img').length!==0){
         document.querySelectorAll('.good img').forEach(el => {
             el.addEventListener('click', jump);
-        })
+        });
     }
     if(document.querySelectorAll('.promoImg')){
         document.querySelectorAll('.promoImg').forEach(el => {
             el.addEventListener('click', jump);
-        })
+        });
     }
-    if(document.getElementById("prevbutton")){
-        document.getElementById("prevbutton").addEventListener('click',function(){
+    if(document.getElementById('prevbutton')){
+        document.getElementById('prevbutton').addEventListener('click',function(){
             window.slides.slideleft();
         });
     }
-    if(document.getElementById("nextbutton")){
-        document.getElementById("nextbutton").addEventListener('click',function(){
+    if(document.getElementById('nextbutton')){
+        document.getElementById('nextbutton').addEventListener('click',function(){
             window.slides.slideright();
         });
     }
@@ -63,13 +63,13 @@ function setJumpers(){
     if(document.getElementById('confirm')){
         document.querySelectorAll('#confirm').forEach(el => {
             el.addEventListener('click', jump);
-        })
-      //  document.getElementById('confirm').addEventListener('click',jump);
+        });
+        //  document.getElementById('confirm').addEventListener('click',jump);
     }
     if(document.getElementById('clearorderlist')){
         document.querySelectorAll('#clearorderlist').forEach(el => {
             el.addEventListener('click', jump);
-        })
+        });
     }
     if(document.querySelectorAll('.change')){
         document.querySelectorAll('.less').forEach(el => {
@@ -77,26 +77,26 @@ function setJumpers(){
                 let params = el.dataset['path'].split(',');
                 decrease(params[0]*1,params[1]*1,params[2]*1);
             });
-        })
+        });
         document.querySelectorAll('.increase').forEach(el => {
             el.addEventListener('click', function () {
                 let params = el.dataset['path'].split(',');
                 increase(params[0]*1,params[1]*1,params[2]*1);
             });
-        })
+        });
         document.querySelectorAll('.remove').forEach(el => {
             el.addEventListener('click', function () {
                 let params = el.dataset['path'].split(',');
                 remove(params[0]*1,params[1]*1,params[2]*1);
             });
-        })
+        });
     }
     if(document.getElementById('buybutton')){
         document.querySelectorAll('#buybutton').forEach(el => {
             el.addEventListener('click', function () {
                 makeorder();
             });
-        })
+        });
     }
     if(document.getElementById('paycash')){
         document.querySelector('#paycash').addEventListener('click',function () {
@@ -109,10 +109,9 @@ function setJumpers(){
 }
 
 async function init(){
-    a = new slider();
     document.querySelectorAll('.nav').forEach(el => {
         el.addEventListener('click', jump);
-    })
+    });
     await router();
     setJumpers();
 }

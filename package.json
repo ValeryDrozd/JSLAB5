@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "webpack serve",
     "dist": "webpack",
-    "lint": "eslint scripts"
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
