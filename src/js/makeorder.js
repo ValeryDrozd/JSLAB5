@@ -170,7 +170,7 @@ async function genOrderList(){
 
 
 
-async function makeorder(){
+export async function makeorder(){
     let userData = {};
     userData['name'] = document.getElementById('name').value;
     userData['surname'] = document.getElementById('surname').value;
@@ -183,7 +183,7 @@ async function makeorder(){
     userData['cvv'] = document.getElementById('cvv').value;
     userData['dateofexpire'] = document.getElementById('dateofexpire').value;
     userData['city'] = document.getElementById('city').value;
-    if(validate(userData)==true){
+    if(validate(userData)===true){
         let id = await fetch("https://my-json-server.typicode.com/ValeryDrozd/Valerydrozd.github.io/categories",{method:'POST'}).then(res => res.json());
         id = id['id'];
         let orders = getOrder();

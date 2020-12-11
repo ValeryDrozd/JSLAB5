@@ -4,6 +4,7 @@ import './js/slider'
 import { slider } from './js/slider';
 import { buy, changeElem } from './js/buy'
 import {decrease, increase, remove} from "./js/calcprice";
+import {makeorder} from "./js/makeorder";
 
 global.slides = new slider();
 let a = 1;
@@ -24,7 +25,7 @@ function setJumpers(){
             el.addEventListener('click', jump);
         })
     }
-    if(document.querySelectorAll('.promoimg').length!=0){
+    if(document.querySelectorAll('.promoImg')){
         document.querySelectorAll('.promoImg').forEach(el => {
             el.addEventListener('click', jump);
         })
@@ -47,6 +48,7 @@ function setJumpers(){
             });
         }
     }
+
     if(document.querySelectorAll('rb')){
         let rbs = document.querySelectorAll('.rb');
         for(let i=0;i<rbs.length;i++){
@@ -86,6 +88,13 @@ function setJumpers(){
             el.addEventListener('click', function () {
                 let params = el.dataset['path'].split(',');
                 remove(params[0]*1,params[1]*1,params[2]*1);
+            });
+        })
+    }
+    if(document.getElementById('buybutton')){
+        document.querySelectorAll('#buybutton').forEach(el => {
+            el.addEventListener('click', function () {
+                makeorder();
             });
         })
     }
