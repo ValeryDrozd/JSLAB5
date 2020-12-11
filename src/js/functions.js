@@ -241,7 +241,7 @@ export async function generateOrderList(){
         form+='<td class="empty"></td>';
         //PRICE
         form+='<td class="price" >';
-        form+= String(product['price'][productSize*1]);
+        form+= String(product['price'][productSize*1])+'UAH';
         form+='</td>';
         //DECREASE
 

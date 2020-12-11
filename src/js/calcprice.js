@@ -4,16 +4,19 @@ function getSum(){
 }
 
 function findIndexInTheArray(arr,elem){
+    console.log("Array:",arr.values," Elem:",elem);
     for(let i=0;i<arr.length;i++){
-        if(arr[i].values==elem.values)return i;
+        console.log("Arr values",arr[i]," elem values ",elem,' equ ',arr[i]===elem, ' = ',arr[i]==elem);
+        if(arr[i]===elem)return i;
     }
+    
     return -1;
 }
 
 export function increase(productID,productSize,productPrice){
     let basket = localStorage.getItem('cart');
     basket = JSON.parse(basket);
-    if(basket['amount'][String([productID+1,1*productSize])]==undefined){
+    if(basket['amount'][String([productID+1,1*productSize])]===undefined){
         basket['amount'][String([productID+1,1*productSize])] = 1;
         basket['items'].push([productID+1,String(productSize)]);
     }
@@ -40,7 +43,7 @@ export function decrease(productID,productSize,productPrice){
         document.getElementById('amount'+productID+productSize).innerText= basket['amount'][String([productID+1,1*productSize])];
         document.getElementById('amount').innerText = basket['number'];
         localStorage.setItem('cart',JSON.stringify(basket));
-        if(basket['amount'][String([productID+1,1*productSize])]==0){
+        if(basket['amount'][String([productID+1,1*productSize])]===0){
             delete basket['amount'][String([[productID+1,1*productSize]])];
             basket['items'].splice(findIndexInTheArray(basket["items"],[productID,String(productSize)]),1);
         }
@@ -53,10 +56,12 @@ export function remove(productID,productSize,productPrice){
     basket = JSON.parse(basket);
     document.getElementById('allsum').innerText = getSum() - productPrice*basket['amount'][String([productID+1,1*productSize])]+'UAH';
     basket['number']-=basket['amount'][String([productID+1,1*productSize])];
+    if(basket['amount'][String([productID+1,1*productSize])]!==0){
+        basket['items'].splice(findIndexInTheArray(basket["items"], [productID+1, String(productSize)]), 1);
+    }
     delete basket['amount'][String([productID+1,1*productSize])];
-    basket['items'].splice(findIndexInTheArray(basket["items"],[productID,String(productSize)]),1);
     document.getElementById("elem"+String([productID,productSize])).style.display = 'none';
-    if(getSum()==0){
+    if(getSum()===0){
         document.getElementById("orderList").innerHTML = "<h1 style='text-align:center'>Your cart is empty... Buy something!</h1>";
     }
     document.getElementById('amount').innerText = basket['number'];

@@ -3,6 +3,7 @@ import './css/styles.css'
 import './js/slider'
 import { slider } from './js/slider';
 import { buy, changeElem } from './js/buy'
+import {decrease, increase, remove} from "./js/calcprice";
 
 global.slides = new slider();
 let a = 1;
@@ -69,21 +70,24 @@ function setJumpers(){
         })
     }
     if(document.querySelectorAll('.change')){
-        let decrButtons = document.querySelectorAll('.less');
-        let incrButtons = document.querySelectorAll('.increase');
-        let rmButtons = document.querySelectorAll('.remove');
-        for(let i=1;i<decrButtons.length;i++){
-            let params = decrButtons[i].dataset['path'].split(',');
-            decrButtons[i].addEventListener('click',function () {
+        document.querySelectorAll('.less').forEach(el => {
+            el.addEventListener('click', function () {
+                let params = el.dataset['path'].split(',');
                 decrease(params[0]*1,params[1]*1,params[2]*1);
             });
-            incrButtons[i].addEventListener('click',function () {
+        })
+        document.querySelectorAll('.increase').forEach(el => {
+            el.addEventListener('click', function () {
+                let params = el.dataset['path'].split(',');
                 increase(params[0]*1,params[1]*1,params[2]*1);
             });
-            rmButtons[i].addEventListener('click',function () {
+        })
+        document.querySelectorAll('.remove').forEach(el => {
+            el.addEventListener('click', function () {
+                let params = el.dataset['path'].split(',');
                 remove(params[0]*1,params[1]*1,params[2]*1);
             });
-        }
+        })
     }
 }
 
