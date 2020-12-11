@@ -92,16 +92,16 @@ function validate(orderData){
     if(orderData['address'].length==0){return false;}
     if(validateDate(orderData['deliverydate'])==false){return false;}
     if(document.getElementById('paycard').checked==true){
-        if(validateCard(orderData['cnumber'])==false){alert('Wrong card number!');return false;}
+        if(validateCard(orderData['cnumber'])===false){alert('Wrong card number!');return false;}
         if(validateCVV(orderData['cvv'])==false){alert('Wrong cvv code!');return false;}
-        if(validateDE(orderData['dateofexpire'])==false){alert('Wrong date of expire!');return false;}
-        if(orderData['city'].length==0){alert('Wrong card number!');return false;}
+        if(validateDE(orderData['dateofexpire'])===false){alert('Wrong date of expire!');return false;}
+        if(orderData['city'].length===0){alert('Wrong card number!');return false;}
     }
     return true;
 }
 
-function hideshow(param){
-    if(param==1)document.getElementById('cardcreds').style.display = 'none';
+export function hideshow(param){
+    if(param===1)document.getElementById('cardcreds').style.display = 'none';
     else
     document.getElementById('cardcreds').style.display = 'block';
 }

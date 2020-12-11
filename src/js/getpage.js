@@ -45,11 +45,11 @@ export let routes = {
     '<label for="paycard">'+
     '    Now'+
     '</label><br>'+
-    '<input type="radio" name="pay" id="paycard"  checked onclick="hideshow(2)" style="margin: initial;font:initial;font-size: 1.4em;width: initial;"><br>'+
+    '<input type="radio" name="pay" id="paycard"  checked style="margin: initial;font:initial;font-size: 1.4em;width: initial;"><br>'+
     '<label for="paycash">'+
     '    On delivery'+
     '</label><br>'+
-    '<input type="radio" name="pay" onclick="hideshow(1)" id="paycash" style="margin: initial;font:initial;font-size: 1.4em;width: initial;">'+
+    '<input type="radio" name="pay" id="paycash" style="margin: initial;font:initial;font-size: 1.4em;width: initial;">'+
 
     
     '<div id="cardcreds">'+
@@ -62,7 +62,7 @@ export let routes = {
         '<label for="city">Enter city</label><br>'+
         '<input type="text" id="city"></br>'+
     '</div>'+
-    '<button id="buybutton" onclick="makeorder()"> Make order </button>'+
+    '<button id="buybutton" > Make order </button>'+
 '</div>',
     'promo':'<div id="promoContainer" ><div id="promoImage">'+'<img src="./images/loading.svg" alt="loadimage" style="width: 100%;height: 250px;">'+'</div>'+
             '<div id="promoDescription">'+'<img src="./images/loading.svg" alt="loadimage" style="width: 100%;height: 250px;">'+'</div></div>',

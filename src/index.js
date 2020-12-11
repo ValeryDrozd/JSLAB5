@@ -4,7 +4,7 @@ import './js/slider'
 import { slider } from './js/slider';
 import { buy, changeElem } from './js/buy'
 import {decrease, increase, remove} from "./js/calcprice";
-import {makeorder} from "./js/makeorder";
+import {makeorder, hideshow} from "./js/makeorder";
 
 global.slides = new slider();
 let a = 1;
@@ -97,6 +97,14 @@ function setJumpers(){
                 makeorder();
             });
         })
+    }
+    if(document.getElementById('paycash')){
+        document.querySelector('#paycash').addEventListener('click',function () {
+            hideshow(1);
+        });
+        document.querySelector('#paycard').addEventListener('click',function () {
+            hideshow(2);
+        });
     }
 }
 
