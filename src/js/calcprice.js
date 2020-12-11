@@ -6,10 +6,11 @@ function getSum(){
 function findIndexInTheArray(arr,elem){
     console.log("Array:",arr.values," Elem:",elem);
     for(let i=0;i<arr.length;i++){
-        console.log("Arr values",arr[i]," elem values ",elem,' equ ',arr[i]===elem, ' = ',arr[i]==elem);
-        if(arr[i]===elem)return i;
+       // console.log("Arr values",arr[i]," elem values ",elem,' equ ',arr[i]===elem, ' = ',arr[i]==elem);
+        console.log("Comparison zero element",arr[i][0]===elem[0], "Comparison of the first element",arr[i][1]===elem[1]);
+        if(arr[i][0]===elem[0] && arr[i][1]===elem[1])return i;
     }
-    
+    console.log("Returning -1");
     return -1;
 }
 
@@ -32,6 +33,7 @@ export function increase(productID,productSize,productPrice){
 }
 
 export function decrease(productID,productSize,productPrice){
+    console.log(productID,productSize,productPrice);
     let basket = localStorage.getItem('cart');
     basket = JSON.parse(basket);
     if( basket['amount'][String([[productID+1,1*productSize]])]>0){
@@ -45,7 +47,7 @@ export function decrease(productID,productSize,productPrice){
         localStorage.setItem('cart',JSON.stringify(basket));
         if(basket['amount'][String([productID+1,1*productSize])]===0){
             delete basket['amount'][String([[productID+1,1*productSize]])];
-            basket['items'].splice(findIndexInTheArray(basket["items"],[productID,String(productSize)]),1);
+            basket['items'].splice(findIndexInTheArray(basket["items"],[productID+1,String(productSize)]),1);
         }
         localStorage.setItem('cart',JSON.stringify(basket));
     }
@@ -54,8 +56,12 @@ export function decrease(productID,productSize,productPrice){
 export function remove(productID,productSize,productPrice){
     let basket = localStorage.getItem('cart');
     basket = JSON.parse(basket);
-    document.getElementById('allsum').innerText = getSum() - productPrice*basket['amount'][String([productID+1,1*productSize])]+'UAH';
-    basket['number']-=basket['amount'][String([productID+1,1*productSize])];
+
+    let newPrice =  (getSum() - ((basket['amount'][String([productID+1,1*productSize])]===undefined)?0:basket['amount'][String([productID+1,1*productSize])])*productPrice );
+    document.getElementById('allsum').innerText = newPrice+'UAH';
+    let newNumber = ((basket['amount'][String([productID+1,1*productSize])]===undefined)?0:basket['amount'][String([productID+1,1*productSize])]);
+    console.log("Deleting from number", newNumber);
+    basket['number']-=newNumber;
     if(basket['amount'][String([productID+1,1*productSize])]!==0){
         basket['items'].splice(findIndexInTheArray(basket["items"], [productID+1, String(productSize)]), 1);
     }
