@@ -245,7 +245,7 @@ export async function generateOrderList(){
         form+='</td>';
         //DECREASE
 
-        form+='<td class="less change" onclick=decrease('+productID+','+productSize+','+product['price'][productSize*1]+') >';
+        form+='<td class="less change"  data-path="'+productID+','+productSize+','+String(product['price'][productSize*1])+'" >';
         form+= 'Less'
         form+='</td>';
         //AMOUNT
@@ -254,7 +254,7 @@ export async function generateOrderList(){
         sum+=basket['amount'][basket['items'][i]]*product['price'][productSize*1];
         form+='</td>';
         //INCREASE
-        form+='<td class="increase change" onclick="increase('+productID+','+productSize+','+String(product['price'][productSize*1])+')" >';
+        form+='<td class="increase change" data-path="'+productID+','+productSize+','+String(product['price'][productSize*1])+'" >';
         form+=  'More';
         form+='</td>';
         //FINALSUM
@@ -262,17 +262,17 @@ export async function generateOrderList(){
         form+=  String(basket['amount'][basket['items'][i]]*product['price'][productSize*1])+'UAH';
         form+='</td>';
         //REMOVE
-        form+='<td class="remove change" onclick="remove('+productID+','+productSize+','+String(product['price'][productSize*1])+')" >';
+        form+='<td class="remove change" data-path="'+productID+','+productSize+','+String(product['price'][productSize*1])+'" >';
         form+=  'Remove';
-        form+='</td>';
-        form+='</tr>';
+        form+='</td></tr>';
+
     }
     form+='</table></div>'
     //GENERATING TABLE WITH SUM
     form+='<hr style="width:80%;">'
     form += '<table class="itemList"><tr><td style="font-weight:bolder;height:100%;"> All price </td><td></td><td></td><td></td><td id="allsum" style="font-weight:bolder">'+sum+'UAH</td></tr></table>';
     form += '<button id="confirm" data-path="#order"> CONFIRM </button></div>';
-    form += '<button id="clearorderlist" data-path="all"> Clear order list </button></div>';
+    form += '<button id="clearorderlist" data-path="#all"> Clear order list </button></div>';
 
     return form;
 }

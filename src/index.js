@@ -3,15 +3,19 @@ import './css/styles.css'
 import './js/slider'
 import { slider } from './js/slider';
 import { buy, changeElem } from './js/buy'
+
 global.slides = new slider();
 let a = 1;
 
 async function jump(){
     const path = this.getAttribute('data-path');
+    if(this.id==='clearorderlist')localStorage.clear();
     window.location.hash = path;
     let t = await router();
     setJumpers();
 }
+
+
 
 function setJumpers(){
     if(document.querySelectorAll('.good img').length!=0){
@@ -50,6 +54,34 @@ function setJumpers(){
                 let params = id.split('_');
                 console.log(params);
                 changeElem(params[0]*1,params[1]*1);
+            });
+        }
+    }
+    if(document.getElementById('confirm')){
+        document.querySelectorAll('#confirm').forEach(el => {
+            el.addEventListener('click', jump);
+        })
+      //  document.getElementById('confirm').addEventListener('click',jump);
+    }
+    if(document.getElementById('clearorderlist')){
+        document.querySelectorAll('#clearorderlist').forEach(el => {
+            el.addEventListener('click', jump);
+        })
+    }
+    if(document.querySelectorAll('.change')){
+        let decrButtons = document.querySelectorAll('.less');
+        let incrButtons = document.querySelectorAll('.increase');
+        let rmButtons = document.querySelectorAll('.remove');
+        for(let i=1;i<decrButtons.length;i++){
+            let params = decrButtons[i].dataset['path'].split(',');
+            decrButtons[i].addEventListener('click',function () {
+                decrease(params[0]*1,params[1]*1,params[2]*1);
+            });
+            incrButtons[i].addEventListener('click',function () {
+                increase(params[0]*1,params[1]*1,params[2]*1);
+            });
+            rmButtons[i].addEventListener('click',function () {
+                remove(params[0]*1,params[1]*1,params[2]*1);
             });
         }
     }

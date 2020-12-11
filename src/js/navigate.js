@@ -28,8 +28,6 @@ export async function router(){
             document.getElementById('cartBtn').style.backgroundColor = '#F9E79F';
             document.getElementById('content').innerHTML = routes['cart'];
             document.getElementById('orderList').innerHTML = await generateOrderList();
-            document.getElementById("confirm").addEventListener("click",jump);
-            document.getElementById("clearorderlist").addEventListener("click",clearOrderList);
             break;
         case ('#order'):
             if(getCart()['number']>0){

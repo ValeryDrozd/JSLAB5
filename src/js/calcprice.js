@@ -10,7 +10,7 @@ function findIndexInTheArray(arr,elem){
     return -1;
 }
 
-function increase(productID,productSize,productPrice){
+export function increase(productID,productSize,productPrice){
     let basket = localStorage.getItem('cart');
     basket = JSON.parse(basket);
     if(basket['amount'][String([productID+1,1*productSize])]==undefined){
@@ -28,7 +28,7 @@ function increase(productID,productSize,productPrice){
     localStorage.setItem('cart',JSON.stringify(basket));
 }
 
-function decrease(productID,productSize,productPrice){
+export function decrease(productID,productSize,productPrice){
     let basket = localStorage.getItem('cart');
     basket = JSON.parse(basket);
     if( basket['amount'][String([[productID+1,1*productSize]])]>0){
@@ -48,7 +48,7 @@ function decrease(productID,productSize,productPrice){
     }
 }
 
-function remove(productID,productSize,productPrice){
+export function remove(productID,productSize,productPrice){
     let basket = localStorage.getItem('cart');
     basket = JSON.parse(basket);
     document.getElementById('allsum').innerText = getSum() - productPrice*basket['amount'][String([productID+1,1*productSize])]+'UAH';
