@@ -21,7 +21,7 @@ export async function router(){
             document.getElementById('goodsField').innerHTML = await generateItems('pizza');
             break;
         case '#drinks':
-            document.getElementById('drinkBtn').style.backgroundColor = '#F9E79F';
+            document.getElementById('drinkBtn').style.backgroundColor = '#f9e79f';
             document.getElementById('content').innerHTML = routes['drinks'];
             document.getElementById('goodsField').innerHTML = await generateItems('drinks');
             break;
@@ -61,7 +61,7 @@ export async function router(){
                 }
                 if(group=='order'){
                     document.getElementById('content').innerHTML = routes['clientorder'];
-                    await genOrderList();
+                    document.getElementById('orderList').innerHTML = await genOrderList();
                     break;
                 }
             }

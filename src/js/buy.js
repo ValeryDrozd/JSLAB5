@@ -1,17 +1,11 @@
-function getCart(){
-    let basket = localStorage.getItem('cart');
-    if(basket!=null)basket = JSON.parse(basket);
-    else
-        basket = {'items':[],'amount':{},'number':0,'unitprice':0};
-    return basket;
-}
+import {getCart} from './functions';
 
 export function buy(id){
     let basket = getCart();
     let radios = document.getElementsByName(id);
     for(let i=0;i<radios.length;i++){
         if(radios[i].checked){
-            if(basket['amount'][String([id,radios[i].value])]==undefined){
+            if(basket['amount'][String([id,radios[i].value])]===undefined){
                 basket['items'].push([id,radios[i].value]);
                 basket['amount'][[id,radios[i].value]] = 1;
                 basket['number']+=1;

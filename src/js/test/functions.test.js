@@ -1,105 +1,60 @@
-import {
-    getOrder,
-    validateEmail,
-    validateName,
-    validateCVV,
-    validateCard,
-    validateDE,
-    validateDate,
-    validate, hideshow, genOrderList
-} from '../makeorder';
+import {getCart, generateBlock, valid, generateOrderList} from '../functions';
 import 'regenerator-runtime';
+//import {enableFetchMocks} from 'jest-fetch-mock';
+//enableFetchMocks()
 
-class LocalStorageMock {
-    constructor() {
-        this.store = {};
-    }
-
-    clear() {
-        this.store = {};
-    }
-
-    getItem(key) {
-        return this.store[key] || null;
-    }
-
-    setItem(key, value) {
-        this.store[key] = value.toString();
-    }
-
-    removeItem(key) {
-        delete this.store[key];
-    }
-};
-
-global.localStorage = new LocalStorageMock;
-
-test('Validate name should return true if name does not contain spaces',()=>{
-    expect(validateName('Valery')).toBeTruthy();
-    expect(validateName('Some name')).toBeFalsy();
+test('getcart should return its base object in localstorage is undefined',()=>{
+    expect(getCart()).toEqual({'items':[],'amount':{},'number':0});
 })
 
-test('Validate email should return true if email is valid',()=>{
-    expect(validateEmail('someemail@')).toBeFalsy();
-    expect(validateEmail('Some email@mail.com')).toBeFalsy();
-    expect(validateEmail('email@mail.com')).toBeTruthy();
+test('Generate block should generate block with image and description',()=>{
+    expect(generateBlock({
+        "id":2,
+        "url":"toscana",
+        "productName":"Toscana pizza",
+        "productDescription":"Pizza with Chicken, Feta, Mozarella, Cherry tomatoes, Al'fredo sauce, Spinach.",
+        "price":[140],
+        "images":[],
+        "wegith":[],
+        "radius":["20cm"],
+        "spicy":false,
+        "recommend":false
+    })).toBe(' <div class="good">'+
+        '<img src="./images/toscana.jpg" alt = "image" class="goodImg" data-path="#products/2" >'+
+        '<p style="font-size: 1.2em;font-weight: bolder;" >Toscana pizza</p>'+
+        '<hr style="width:80%;">'+
+        '<p style="margin-bottom:0;"> Pizz'+
+        "a with Chicken, Feta, Mozarella, Cherry tomatoes, Al'fredo sauce, Spinach. "+
+        '</p>'+
+        '<span><span style="margin-right:20px;"><input type="radio" class="rb" style="margin-right:5px;" id="2_140"  name="2" checked value = "0" >20cm</span></span>'+
+        '<br> <span id="unitprice2" > One item price: 140 UAH</span><br> <button id="buy2" value = "140" class="buy"  >Buy</button>'+
+        '</div>');
 })
 
-test('Validate cvv should return true if cvv is valid',()=>{
-    expect(validateCVV('1235')).toBeTruthy();
-    expect(validateCVV('123q')).toBeFalsy();
-    expect(validateCVV('123')).toBeTruthy();
-})
+global.fetch =  jest.fn(() =>
+    Promise.resolve({
+        json: () => Promise.resolve([{'id': 1}, {'id': 2}, {'id': 3}]),
+    })
+);
 
-test('Validate date of expire should return true if card is not expired',()=>{
-    expect(validateDE('1q/q3')).toBeFalsy();
-    expect(validateDE('12/12')).toBeFalsy();
-    expect(validateDE('12/23')).toBeTruthy();
-})
+test("Testing valid product",  async ()=>{
+    const result = await valid('#products/1');
+    expect(result).toBe(true);
+});
 
-test('Validate card if it"s number',()=>{
-    expect(validateCard('111111111111')).toBeFalsy();
-    expect(validateCard('4111111111111111')).toBeTruthy();
-})
+test("Testing valid order",  async ()=>{
+    const result = await valid('#orders/1');
+    expect(result).toBe(false);
+});
 
-test('Validate date if time difference between order time and delivery time is more than three hours ',()=>{
-    expect(validateDate('2020-12-14T10:26')).toBeTruthy();
-    expect(validateDate('2020-11-14T10:26')).toBeFalsy();
-})
 
-test('Trying to check form validation',()=>{
-    document.body.innerHTML = '<div><input type="radio" name="pay" id="paycard"  style="margin: initial;font:initial;font-size: 1.4em;width: initial;">' +
-        '<input type="radio" name="pay" id="paycard"  checked style="margin: initial;font:initial;font-size: 1.4em;width: initial;"></div>';
-    let userData = {};
-    userData['name'] = 'Qwerty';
-    userData['surname'] = 'Qwerty';
-    userData['phone'] = '0981234567';
-    userData['email'] ='qwerty@gmail.com';
-    userData['delCity'] = 'City';
-    userData['address'] = 'Address 12';
-    userData['deliverydate'] = "2020-12-14T21:08";
-    expect(validate(userData)).toEqual(true);
-})
+test("Testing valid promo",  async ()=>{
+    const result = await valid('#promos/1');
+    expect(result).toBe(true);
+});
 
-test('Testing hideshow function',()=>{
-    document.body.innerHTML = '<div><input type="radio" name="pay" id="paycard"  style="margin: initial;font:initial;font-size: 1.4em;width: initial;">' +
-        '<input type="radio" name="pay" id="paycard"  checked style="margin: initial;font:initial;font-size: 1.4em;width: initial;"></div><div id="cardcreds"></div>';
-    hideshow(1);
-    expect(document.getElementById('cardcreds').style.display).toEqual('none');
-})
-
-test('testing getOrderFunction when order is empty',()=>{
-    expect(getOrder()).toEqual({'orderdata':{},'ordercart':{},'orderids':[]});
-})
-
-test('testing getOrderFunction when order is not empty',()=>{
-    localStorage.clear();
-    localStorage.setItem('orders',JSON.stringify({"orderdata":{"kNKiNyu":{"name":"Valery","surname":"Valery","phone":"0986547097","email":"valery@gmail.com",
-                "delCity":"Khmelnytskyi","address":"Ssume 23","deliverydate":"2020-12-13T23:28","cnumber":"",
-                "cvv":"","dateofexpire":"","city":""}},"ordercart":{"kNKiNyu":{"items":[[2,"0"]],"amount":{"2,0":1},"number":1,"unitprice":0}},"orderids":["kNKiNyu"]}));
-    expect(getOrder()).toEqual({"orderdata":{"kNKiNyu":{"name":"Valery","surname":"Valery","phone":"0986547097","email":"valery@gmail.com",
-                "delCity":"Khmelnytskyi","address":"Ssume 23","deliverydate":"2020-12-13T23:28","cnumber":"",
-                "cvv":"","dateofexpire":"","city":""}},"ordercart":{"kNKiNyu":{"items":[[2,"0"]],"amount":{"2,0":1},"number":1,"unitprice":0}},"orderids":["kNKiNyu"]});
+test('Testing generate table function when localstorage is empty',async ()=>{
+    expect(await generateOrderList()).toBe("<h1>Your cart is empty... Buy something!</h1>");
 })
 
 global.fetch =  jest.fn(() =>
@@ -300,13 +255,36 @@ global.fetch =  jest.fn(() =>
         ]),
     })
 );
-test('Testing render of the page',async ()=>{
-    localStorage.clear();
-    document.body.innerHTML = '<div id=content></div>';
-    window.location.hash = "#order/kNKiNyu";
-    localStorage.setItem('orders',JSON.stringify({"orderdata":{"kNKiNyu":{"name":"Valery","surname":"Valery","phone":"0986547097","email":"valery@gmail.com",
-                "delCity":"Khmelnytskyi","address":"Ssume 23","deliverydate":"2020-12-13T23:28","cnumber":"",
-                "cvv":"","dateofexpire":"","city":""}},"ordercart":{"kNKiNyu":{"items":[[2,"0"]],"amount":{"2,0":1},"number":1,"unitprice":0}},"orderids":["kNKiNyu"]}));
-    const text = await (genOrderList());
-    expect(text).toBeTruthy();
+test('Testing generate table function when localstorage is full', async ()=>{
+    localStorage.setItem('cart','{"items":[[12,"0"],[2,"0"]],"amount":{"12,0":1,"2,0":1},"number":2,"unitprice":0}');
+    expect(await generateOrderList()).toBe("<div id=\"list\">" +
+        "<table>" +
+            "<tr>" +
+                "<td class=\"image\"></td>" +
+                "<td class=\"name\" >Product name</td>" +
+                "<td class=\"size\" >Product size</td>" +
+                "<td class=\"empty\" ></td>" +
+                "<td class=\"oneitemprice\">One item price</td>" +
+                "<td class=\"less\"> </td><td class=\"amount\"> Amount of item</td>" +
+                "<td class=\"more\"> </td><td>Full position price</td>" +
+                "<td class=\"remove\"></td></tr><tr id=\"elem11,0\">" +
+                "<td class=\"image\" ><img src= \"./images/cc.jpg\" alt=itemImage ></td>" +
+                "<td class=\"name\">Coca-cola</td><td class=\"size\" >0.5L</td>" +
+                "<td class=\"empty\"></td><td class=\"price\" >45UAH</td>" +
+                "<td class=\"less change\"  data-path=\"11,0,45\" >Less</td>" +
+                "<td class=\"amount\" id=amount110>1</td>" +
+                "<td class=\"increase change\" data-path=\"11,0,45\" >More</td>" +
+                "<td class=\"allsum\" id=\"sum110\">45UAH</td>" +
+                "<td class=\"remove change\" data-path=\"11,0,45\" >Remove</td>" +
+            "</tr><tr id=\"elem1,0\">" +
+                "<td class=\"image\" >" +
+                "<img src= \"./images/toscana.jpg\" alt=itemImage ></td><td class=\"name\">Toscana pizza</td>" +
+                "<td class=\"size\" >20cm</td><td class=\"empty\"></td>" +
+                "<td class=\"price\" >140UAH</td><td class=\"less change\"  data-path=\"1,0,140\" >Less</td>" +
+                "<td class=\"amount\" id=amount10>1</td><td class=\"increase change\" data-path=\"1,0,140\" >More</td>" +
+                "<td class=\"allsum\" id=\"sum10\">140UAH</td><td class=\"remove change\" data-path=\"1,0,140\" >Remove</td></tr>" +
+        "</table></div><hr style=\"width:80%;\">" +
+        "<table class=\"itemList\"><tr><td style=\"font-weight:bolder;height:100%;\"> All price </td><td></td><td></td><td></td><td id=\"allsum\" style=\"font-weight:bolder\">185UAH</td></tr></table>" +
+    "<button id=\"confirm\" data-path=\"#order\"> CONFIRM </button></div><button id=\"clearorderlist\" data-path=\"#all\"> Clear order list </button></div>"
+);
 })

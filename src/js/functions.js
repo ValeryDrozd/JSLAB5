@@ -25,7 +25,7 @@ export async function generatePromo(){
     let images = '';
     
     for(let i=0;i<items.length;i++){
-        images+= '<img class="promoImg" src="./images/'+items[i]['images']+'.jpg" alt="promoimage" data-path="#promos/'+items[i]['id']+'")> ';
+        images+= '<img class="promoImg" src="./images/'+items[i]['images']+'.jpg" alt="promoimage" data-path="#promos/'+items[i]['id']+'"> ';
     }
     document.getElementById('carousel').innerHTML = images;
 }
@@ -50,7 +50,7 @@ function genDescBlock(product){
 }
 
 //Generate block with good
-function generateBlock(product){
+export function generateBlock(product){
 
     let form = ' <div class="good">';
     //Adding image
@@ -66,6 +66,7 @@ function generateBlock(product){
 //Generating items
 export async function generateItems(path){
     let inds;
+    let temp = path;
     //IF PATH IS NOT ALL(SOME GROUP OF ITEMS)
     if(path!='all'){
         //GETTING ITEMS OF THAT VALUE
@@ -101,19 +102,23 @@ export async function generateProduct(path){
 //FUNCTION WITH VALIDATION
 export async function valid(path){
     //GETTING GROUP OF THE PRODUCTS
-    let group = path.substr(path.indexOf('#')+1,path.indexOf('/')-1);
+    let  group = path.substr(path.indexOf('#')+1,path.indexOf('/')-1);
     //GET ID OF ITEM OF THE GROUP
     let url = path.substr(path.indexOf('/')+1);
     if(group=='products'){
+        let found = false;
         //CHECKING IF ITEM WITH THAT ID EXISTS
-        let items = await fetch('https://my-json-server.typicode.com/ValeryDrozd/Valerydrozd.github.io/products').then(res => res.json());  
+        let tempItems = await fetch('https://my-json-server.typicode.com/ValeryDrozd/Valerydrozd.github.io/products');
+        let items = await tempItems.json();
         for(let i=0;i<items.length;i++){
-            if(String(items[i]['id'])==url)return true;
+            if(String(items[i]['id'])===url){found = true;}
         }
+        if(found)return true;
+        else
         return false;
     }
     if(group=='promos'){
-        let items = await fetch('https://my-json-server.typicode.com/ValeryDrozd/Valerydrozd.github.io/promos').then(res => res.json());  
+        let items = await fetch('https://my-json-server.typicode.com/ValeryDrozd/Valerydrozd.github.io/promos').then(res => res.json());
         for(let i=0;i<items.length;i++){
             if(String(items[i]['id'])==url)return true;
         }
@@ -123,7 +128,7 @@ export async function valid(path){
         let orders = JSON.parse(localStorage.getItem('orders'));
         if(orders==null)return false;
         if(orders['orderids'].indexOf(url)==-1)return false;
-        return true;
+        return false;
     }
     return false;
 }
@@ -133,7 +138,9 @@ export async function generateOrderList(){
     //GETTING DATA OF THE CART
     let basket = getCart();
     //INNERHTML TEXT THAT CART IS EMPTY
-    if(basket['number']==0){
+    console.log(basket['number']===0)
+    if(!basket['number']){
+        console.log("Entered");
         return '<h1>Your cart is empty... Buy something!</h1>';
     }
     //GETTING LIST OF PRODUCTS
@@ -208,6 +215,5 @@ export async function generateOrderList(){
     form += '<table class="itemList"><tr><td style="font-weight:bolder;height:100%;"> All price </td><td></td><td></td><td></td><td id="allsum" style="font-weight:bolder">'+sum+'UAH</td></tr></table>';
     form += '<button id="confirm" data-path="#order"> CONFIRM </button></div>';
     form += '<button id="clearorderlist" data-path="#all"> Clear order list </button></div>';
-
     return form;
 }
