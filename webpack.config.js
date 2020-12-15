@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './index.js',
     devtool: 'inline-source-map',
     devServer: {
         liveReload: true,
@@ -23,8 +23,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            filename: './src/index.html',
-            template: './src/index.html',
+            filename: './index.html',
+            template: './index.html',
             use: {
                 loader: 'html-loader',
                 options: {
@@ -34,8 +34,8 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: "./src/images", to: "./images" },
+                { from: "./images", to: "./images" },
             ],
         }),
     ]
-};
+};``

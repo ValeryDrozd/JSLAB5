@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "webpack serve",
     "dist": "webpack",
-    "lint": "eslint src"
+    "lint": "eslint js"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "node-fetch": "^2.6.1",
     "package.json": "^2.0.1"
   }
 }
